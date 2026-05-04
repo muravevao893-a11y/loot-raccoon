@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: loot
+      POSTGRES_PASSWORD: loot
+      POSTGRES_DB: loot_raccoon
+    ports:
+      - "5432:5432"
+    volumes:
+      - loot_raccoon_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U loot -d loot_raccoon"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  loot_raccoon_pg:
